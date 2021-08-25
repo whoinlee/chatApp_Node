@@ -1,3 +1,5 @@
+var socket = io();
+
 $(() => {
     console.log("loaded?")
     $("#send").click(()=>{
@@ -7,21 +9,23 @@ $(() => {
         postMessage(message);
     });
     getMessages();
-})
+});
+
+socket.on('message', addMessage);
 
 function addMessages(message){
     console.log("addMessages", message);
-    $("#messages").append(`<h4> ${message.name} </h4> <p> ${message.message} </p>`)
-}
+    $("#messages").append(`<h4> ${message.name} </h4> <p> ${message.message} </p>`);
+};
 
 function getMessages() {
     console.log("getMessages", message);
     $.get('http://localhost:3000/messages', (data) => {
         data.forEach(addMessages);
     })
-}
+};
 
 function postMessage(message) {
     console.log("postMessage", message);
-    $.post('http://localhost:3000/messages', message)
-}
+    $.post('http://localhost:3000/messages', message);
+};
